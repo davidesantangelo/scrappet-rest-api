@@ -75,7 +75,7 @@ private
   end
 
   def links(page)
-    retrun page.links.all if page.links
+    return page.links.all if page.links
     doc = Nokogiri::HTML(open(page.url))
     links = []
     doc.css("a").each do |a|
