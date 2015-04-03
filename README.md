@@ -1,4 +1,4 @@
-# snippet-rest-api
+# snippet-rest-api 0.1
 rails app for web scraping purposes. It scrapes a given page (by the URL), and returns you all informations about that page.
 
 # getting started
