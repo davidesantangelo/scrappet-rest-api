@@ -3,25 +3,21 @@ require 'open-uri'
 class Api::ScrapersController < Api::BaseController
   skip_before_filter :verify_authenticity_token
   before_filter :set_headers 
+  before_filter :check_params
 
   def scrape
-    if params[:url].blank?
-      render status: 404, json: { message:  'missing params: url' }
-      return
-    end
-
-    page = MetaInspector.new(
-      params[:url],
-      :warn_level => :store,
-      :connection_timeout => 5, 
-      :read_timeout => 5,
-      :headers => { 'User-Agent' => user_agent, 'Accept-Encoding' => 'identity' }
-    )
-
+    page = get_page(params[:url])
     render status: 200, json: { page:  output(page) }
   end
 
-  def title
+  def page_title
+    page = get_page(params[:url])
+    render status: 200, json: { title:  title(page) }
+  end
+
+  def page_description
+    page = get_page(params[:url])
+    render status: 200, json: { description:  description(page) }
   end
   
   def options
@@ -31,6 +27,24 @@ class Api::ScrapersController < Api::BaseController
   end
 
 private
+  def get_page(url)
+    page = MetaInspector.new(
+      params[:url],
+      :warn_level => :store,
+      :connection_timeout => 5, 
+      :read_timeout => 5,
+      :headers => { 'User-Agent' => user_agent, 'Accept-Encoding' => 'identity' }
+    )
+    return page
+  end
+
+  def check_params
+    if params[:url].blank?
+      render status: 403, json: { message: 'Missing required url parameters' }
+      return
+    end
+  end 
+
   def set_headers
     headers["Access-Control-Allow-Origin"] = '*'
     headers['Access-Control-Expose-Headers'] = 'Etag'

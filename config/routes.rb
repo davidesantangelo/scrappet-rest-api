@@ -7,5 +7,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     get '/scrape', to: 'scrapers#scrape', defaults: { format: :json }
+
+    scope :scrape do 
+      get '/title', to: 'scrapers#page_title', defaults: { format: :json }
+      get '/description', to: 'scrapers#page_description', defaults: { format: :json }
+    end
   end
 end
