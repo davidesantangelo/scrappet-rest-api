@@ -68,7 +68,6 @@ private
 
   def title(page)
     return page.title.strip if page.title
-
     doc = Nokogiri::HTML(open(page.url))
     return doc.css('title').text
   end
@@ -86,14 +85,12 @@ private
   def meta(url, name)
     doc = Nokogiri::HTML(open(url))
     metatags = []
-    
-    if doc.at("meta[name='#{name}']").blank?
-      return metatags
-    end
-    
+
+    return metatags if doc.at("meta[name='#{name}']").blank?
     doc.at("meta[name='#{name}']").each do |meta|
-      metatags.push(meta['content']) if meta
+      metatags.push(meta[1]) if (meta and meta.include? "content")
     end
+    return metatags
   end
 
   def links(page)
@@ -101,11 +98,7 @@ private
     doc = Nokogiri::HTML(open(page.url))
     links = []
     doc.css("a").each do |a|
-      if not (a and a[:href])
-        next
-      end
-      url = (a[:href].to_s.start_with? url.to_s) ? a[:href] : URI.join(url, a[:href]).to_s
-      links.push(url)
+      links.push((a[:href].to_s.start_with? url.to_s) ? a[:href] : URI.join(url, a[:href]).to_s) if (a and a[:href])
     end
     return links
   end
@@ -114,12 +107,7 @@ private
     doc = Nokogiri::HTML(open(url))
     images = []
     doc.css("img").each do |img|
-      if not (img and img[:src])
-        next
-      end
-      image = (img[:src].to_s.start_with? url.to_s) ? img[:src] : URI.join(url, img[:src]).to_s
-      puts image
-      images.push(image)
+      images.push((img[:src].to_s.start_with? url.to_s) ? img[:src] : URI.join(url, img[:src]).to_s) if (img and img[:src])
     end
     return images
   end
