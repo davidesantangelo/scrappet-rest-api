@@ -71,7 +71,15 @@ private
 
   def meta(url, name)
     doc = Nokogiri::HTML(open(url))
-    return  doc.at("meta[name='#{name}']")['content']
+    metatags = []
+    
+    if doc.at("meta[name='#{name}']").blank?
+      return metatags
+    end
+    
+    doc.at("meta[name='#{name}']").each do |meta|
+      metatags.push(meta['content']) if meta
+    end
   end
 
   def links(page)
