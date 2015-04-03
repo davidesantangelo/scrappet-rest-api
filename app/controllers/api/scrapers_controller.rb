@@ -2,7 +2,6 @@ require 'open-uri'
 
 class Api::ScrapersController < Api::BaseController
   skip_before_filter :verify_authenticity_token
-  before_filter :set_headers 
   before_filter :check_params
 
   def scrape
@@ -20,12 +19,6 @@ class Api::ScrapersController < Api::BaseController
     render status: 200, json: { description:  description(page) }
   end
   
-  def options
-    set_headers
-    # this will send an empty request to the clien with 200 status code (OK, can proceed)
-    render :text => '', :content_type => 'text/plain'
-  end
-
 private
   def get_page(url)
     page = MetaInspector.new(
@@ -44,14 +37,6 @@ private
       return
     end
   end 
-
-  def set_headers
-    headers["Access-Control-Allow-Origin"] = '*'
-    headers['Access-Control-Expose-Headers'] = 'Etag'
-    headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD'
-    headers['Access-Control-Allow-Headers'] = '*, x-requested-with, Content-Type, If-Modified-Since, If-None-Match'
-    headers['Access-Control-Max-Age'] = '86400'
-  end
 
   def output(page)
     output = { 
