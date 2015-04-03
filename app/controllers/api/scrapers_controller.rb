@@ -18,7 +18,7 @@ class Api::ScrapersController < Api::BaseController
     page = get_page(params[:url])
     render status: 200, json: { description:  description(page) }
   end
-  
+
 private
   def get_page(url)
     page = MetaInspector.new(
@@ -79,11 +79,11 @@ private
   end
 
   def links(page)
-    return page.links.all if page.links
+    return page.links.all if not page.links.all.blank?
     doc = Nokogiri::HTML(open(page.url))
     links = []
     doc.css("a").each do |a|
-      links.push((a[:href].to_s.start_with? url.to_s) ? a[:href] : URI.join(url, a[:href]).to_s) if (a and a[:href])
+      links.push((a[:href].to_s.start_with? page.url.to_s) ? a[:href] : URI.join(page.url, a[:href]).to_s) if (a and a[:href])
     end
     return links
   end
