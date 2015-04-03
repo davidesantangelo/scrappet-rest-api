@@ -4,7 +4,7 @@ rails app for web scraping purposes. It scrapes a given page (by the URL), and r
 # getting started
 
 git clone https://github.com/davidesantangelo/snippet-rest-api.git<br />
-cd snippet-rest-api & bundle install
+cd snippet-rest-api & bundle install<br />
 rails s 
 
 # try it
