@@ -5,8 +5,13 @@ class Api::ScrapersController < Api::BaseController
   before_filter :check_params
 
   def scrape
-    page = get_page(params[:url])
-    render status: 200, json: { page:  output(page) }
+    begin
+      page = get_page(params[:url])
+      doc = Nokogiri::HTML(open(page.url))
+      render status: 200, json: { page: output(page, doc) }
+    rescue Exception => e
+       render status: 500, json: { message: e.message }
+    end
   end
 
   def page_title
@@ -38,49 +43,46 @@ private
     end
   end 
 
-  def output(page)
+  def output(page, doc)
     output = { 
       url: page.url,
       host: page.host,
-      title: title(page),
-      description: description(page),
-      keywords: keywords(page),
-      links: links(page),
-      images:  images(page.url),
-      meta_tags: meta_tags(page.url)
+      title: title(page, doc),
+      description: description(page, doc),
+      keywords: keywords(page, doc),
+      links: links(page, doc),
+      images:  images(page, doc),
+      meta_tags: meta_tags(page, doc)
     }
   end
 
-  def title(page)
+  def title(page, doc)
     return page.title.strip if page.title
-    doc = Nokogiri::HTML(open(page.url))
     return doc.css('title').text
   end
 
-  def description(page)
+  def description(page, doc)
     return page.description if page.description
-    return meta(page.url, 'description')
+    return meta(page.url, doc, 'description')
   end
 
-  def keywords(page)
+  def keywords(page, doc)
     return page.meta['keywords'] if page.meta['keywords']
-    return meta(page.url, 'keywords')
+    return meta(page.url, doc, 'keywords')
   end
 
-  def meta(url, name)
-    doc = Nokogiri::HTML(open(url))
+  def meta(url, doc, name)
     metatags = []
-
     return metatags if doc.at("meta[name='#{name}']").blank?
+
     doc.at("meta[name='#{name}']").each do |meta|
       metatags.push(meta[1]) if (meta and meta.include? "content")
     end
     return metatags
   end
 
-  def links(page)
+  def links(page, doc)
     return page.links.all if not page.links.all.blank?
-    doc = Nokogiri::HTML(open(page.url))
     links = []
     doc.css("a").each do |a|
       links.push((a[:href].to_s.start_with? page.url.to_s) ? a[:href] : URI.join(page.url, a[:href]).to_s) if (a and a[:href])
@@ -88,8 +90,8 @@ private
     return links
   end
 
-  def images(url)
-    doc = Nokogiri::HTML(open(url))
+  def images(page, doc)
+    url = page.url
     images = []
     doc.css("img").each do |img|
       images.push((img[:src].to_s.start_with? url.to_s) ? img[:src] : URI.join(url, img[:src]).to_s) if (img and img[:src])
@@ -97,8 +99,7 @@ private
     return images
   end
 
-  def meta_tags(url)
-    doc = Nokogiri::HTML(open(url))
+  def meta_tags(page, doc)
     results = []
     hash = Hash.new
     doc.search("meta").map { |meta| 
