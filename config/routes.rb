@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # root 'welcome#index'
 
   namespace :api do
+    get '/me', to: 'base#me', defaults: {format: :json}
     get '/scrape', to: 'scrapers#scrape', defaults: { format: :json }
 
     scope :scrape do 

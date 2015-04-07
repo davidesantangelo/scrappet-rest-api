@@ -3,6 +3,10 @@ class Api::BaseController < ApplicationController
 	before_filter :set_headers 
 	respond_to :json
 
+	def me
+      render status: :ok, json: {url: params[:url]}
+	end
+
 	def options
 	  set_headers
 	  # this will send an empty request to the client with 200 status code (OK, can proceed)
