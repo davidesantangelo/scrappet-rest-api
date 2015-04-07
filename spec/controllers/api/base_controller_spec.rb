@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# bundle exec rspec spec/controllers/api/base_controller_spec.rb
 RSpec.describe Api::BaseController, type: :controller, order: :defined do
   let!(:url)  {"http://www.google.com" }
 

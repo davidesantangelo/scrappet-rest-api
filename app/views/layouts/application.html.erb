@@ -12,7 +12,7 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   	<%= csrf_meta_tags %>
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     <title>Scrappet - API</title>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -24,8 +24,8 @@
   </head>
   <body>
   	<div class="container">
-   	<%= yield %>
-   </div>
+   	  <%= yield %>
+    </div>
   </body>
- <footer class="footer">Made by <a href="http://twitter.com/daviducolo">@daviducolo</a>.</footer>
+  <footer class="footer text-center">Made by <a href="http://twitter.com/daviducolo">@daviducolo</a>.</footer>
 </html>
