@@ -70,6 +70,8 @@ private
 
   def meta(url, page, name)
     metatags = []
+    return metatags if page.at("meta[name='#{name}']").blank?
+    
     page.at("meta[name='#{name}']").each do |meta|
       metatags.push(meta[1]) if (meta and meta.include? "content")
     end
