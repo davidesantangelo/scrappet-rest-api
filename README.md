@@ -1,6 +1,9 @@
 # snippet-rest-api
 rails app for web scraping purposes. It scrapes a given page (by the URL), and returns you all informations about that page.
 
+# see in action
+You can use snippet-rest-api live at this url: https://scrappet.herokuapp.com
+
 # getting started
 
 git clone https://github.com/davidesantangelo/snippet-rest-api.git<br />
