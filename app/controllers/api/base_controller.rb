@@ -34,9 +34,10 @@ protected
   def open_url(url)
     failed = true  
     response_message = ""
+    @current_page = nil
 
     begin                                                            
-      page = open(url, :allow_redirections => :safe)
+      @current_page = Nokogiri::HTML(open(params[:url], :allow_redirections => :safe))
       failed = false                                               
     rescue OpenURI::HTTPError => e                                   
       error_message = e.message                                      
@@ -48,6 +49,6 @@ protected
       error_message = e.message                                      
       response_message = "unknown error"                             
     end     
-    return failed, response_message
+    return failed, response_message, @current_page
   end
 end

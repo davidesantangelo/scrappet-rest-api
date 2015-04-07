@@ -6,22 +6,15 @@ class Api::ScrapersController < Api::BaseController
   before_filter :check_params
 
   def scrape
-    begin
-      page = Nokogiri::HTML(open(params[:url], :allow_redirections => :safe))
-      render status: 200, json: { page: output(params[:url], page) }
-    rescue Exception => e
-       render status: 500, json: { message: e.message }
-    end
+    render status: 200, json: { page: output(params[:url], @current_page) }
   end
 
   def page_title
-    page = Nokogiri::HTML(open(params[:url], :allow_redirections => :safe))
-    render status: 200, json: { title:  title(page) }
+    render status: 200, json: { title:  title(@current_page) }
   end
 
   def page_description
-    page = Nokogiri::HTML(open(params[:url], :allow_redirections => :safe))
-    render status: 200, json: { description:  description(page) }
+    render status: 200, json: { description:  description(@current_page) }
   end
 
 private
