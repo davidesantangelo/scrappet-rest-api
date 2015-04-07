@@ -53,3 +53,7 @@ group :development, :test do
   gem 'spring'
 end
 
+group :staging, :production do
+  gem 'rails_12factor'
+end
+
