@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::BaseController, type: :controller, order: :defined do
-  let!(:url)  {"http://www.#{('a'..'z').to_a.shuffle.join}.com" }
+  let!(:url)  {"http://www.google.com" }
 
   describe "GET #me" do
   	it "returns the url of the request" do
