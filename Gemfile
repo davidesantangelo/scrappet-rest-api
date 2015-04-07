@@ -23,11 +23,11 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-# MetaInspector is a gem for web scraping purposes.
-gem 'metainspector'
-
 # A set of responders modules to dry up your Rails 4.2+ app.
 gem 'responders', '~> 2.0'
+
+# open_uri_w_redirect_to_https - open-uri HTTP to HTTPS redirect support patch
+gem 'open_uri_redirections'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -41,6 +41,9 @@ gem 'responders', '~> 2.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+
+  # Rspec-rails is a testing framework for Rails 3.x and 4.x.
+  gem 'rspec-rails', '~> 3.0'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
