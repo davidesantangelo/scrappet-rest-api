@@ -28,6 +28,8 @@ gem 'responders', '~> 2.0'
 # open_uri_w_redirect_to_https - open-uri HTTP to HTTPS redirect support patch
 gem 'open_uri_redirections'
 
+gem 'bootstrap-sass'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
