@@ -20,16 +20,18 @@ protected
   def check_params
     if params[:url].blank?
       render status: 403, json: { message: 'Missing required url parameters' }
-      return
+      return false
     end
+    return true
   end 
-  
+
   def check_url
   	failed, response = open_url(params[:url])
     if failed
       render status: 500, json: { message: response }
-      return
+      return false
     end
+    return true
   end
 
 	# Set CORS
@@ -46,18 +48,21 @@ protected
     response_message = ""
     @current_page = nil
 
+    @current_url = url
+    u = URI.parse(url)
+    if(!u.scheme)
+      @current_url = "http://#{url}"
+    end
+
     begin                                                            
-      @current_page = Nokogiri::HTML(open(params[:url], :allow_redirections => :safe))
+      @current_page = Nokogiri::HTML(open( @current_url, :allow_redirections => :safe))
       failed = false                                               
     rescue OpenURI::HTTPError => e                                   
       error_message = e.message                                      
       response_message = "response Code = #{e.io.status[0]}"         
     rescue SocketError => e                                          
       error_message = e.message                                      
-      response_message = "host unreachable"                          
-    rescue => e                                                      
-      error_message = e.message                                      
-      response_message = "unknown error"                             
+      response_message = "host unreachable"                                                      
     end     
     return failed, response_message, @current_page
   end

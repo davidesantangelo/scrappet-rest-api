@@ -5,7 +5,7 @@ class Api::ScrapersController < Api::BaseController
   skip_before_filter :verify_authenticity_token
 
   def scrape
-    render status: 200, json: { page: output(params[:url], @current_page) }
+    render status: 200, json: { page: output(@current_url, @current_page) }
   end
 
   def page_title
