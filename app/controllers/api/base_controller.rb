@@ -1,6 +1,9 @@
 class Api::BaseController < ApplicationController
 	skip_before_filter :verify_authenticity_token
-	before_filter :set_headers, :check_url
+  before_filter :check_params
+	before_filter :set_headers
+  before_filter :check_url
+
 	respond_to :json
 
 	def me
@@ -14,6 +17,13 @@ class Api::BaseController < ApplicationController
 	end
 
 protected
+  def check_params
+    if params[:url].blank?
+      render status: 403, json: { message: 'Missing required url parameters' }
+      return
+    end
+  end 
+  
   def check_url
   	failed, response = open_url(params[:url])
     if failed

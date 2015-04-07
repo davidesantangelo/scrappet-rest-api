@@ -3,7 +3,6 @@ require 'open_uri_redirections'
 
 class Api::ScrapersController < Api::BaseController
   skip_before_filter :verify_authenticity_token
-  before_filter :check_params
 
   def scrape
     render status: 200, json: { page: output(params[:url], @current_page) }
@@ -18,13 +17,6 @@ class Api::ScrapersController < Api::BaseController
   end
 
 private
-  def check_params
-    if params[:url].blank?
-      render status: 403, json: { message: 'Missing required url parameters' }
-      return
-    end
-  end 
-
   def output(url, page)
     output = { 
       url: url,
