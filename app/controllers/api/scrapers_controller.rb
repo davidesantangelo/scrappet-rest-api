@@ -17,9 +17,13 @@ class Api::ScrapersController < Api::BaseController
   end
 
   def page_links
-     render status: 200, json: { links:  links(@current_url, @current_page) }
+    render status: 200, json: { links:  links(@current_url, @current_page) }
   end
 
+  def page_images
+    render status: 200, json: { images:  images(@current_url, @current_page) }
+  end
+  
 private
   def output(url, page)
     output = { 

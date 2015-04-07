@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get '/title', to: 'scrapers#page_title', defaults: { format: :json }
       get '/description', to: 'scrapers#page_description', defaults: { format: :json }
       get '/links', to: 'scrapers#page_links', defaults: { format: :json }
+      get '/images', to: 'scrapers#page_images', defaults: { format: :json }
     end
   end
 end
