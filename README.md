@@ -6,9 +6,9 @@ You can use scrappet-rest-api live at this url: https://scrappet.herokuapp.com
 
 # getting started
 
-git clone https://github.com/davidesantangelo/scrappet-rest-api.git<br />
-cd scrappet-rest-api & bundle install<br />
-rails s 
+ % git clone https://github.com/davidesantangelo/scrappet-rest-api.git<br />
+ % cd scrappet-rest-api & bundle install<br />
+ % rails s 
 
 # try it
 curl -X GET http://127.0.0.1:3000/api/scrape?url=http://www.github.com<br>
