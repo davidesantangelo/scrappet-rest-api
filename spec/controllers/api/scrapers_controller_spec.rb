@@ -13,4 +13,14 @@ RSpec.describe Api::ScrapersController, type: :controller, order: :defined do
   	  expect(response_object['title']).to eq('Google')
   	end
   end
+
+  describe "GET #scrape" do
+  	it "returns the port 80 of heroku.com page" do
+  	  get 'scrape', url: url
+
+  	  expect(response).to be_success
+  	  response_object = MultiJson.load(response.body)
+  	  expect(response_object['page']['port']).to eq(80)
+  	end
+  end
 end

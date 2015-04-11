@@ -9,7 +9,7 @@ class Api::ScrapersController < Api::BaseController
   end
 
   def page_title
-    render status: 200, json: { title:  title(@current_url, @current_page) }
+    render status: 200, json: { title:  title(@current_page) }
   end
 
   def page_description
