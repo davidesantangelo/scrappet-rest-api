@@ -55,7 +55,7 @@ protected
     end
 
     begin                                                            
-      @current_page = Nokogiri::HTML(open( @current_url, :allow_redirections => :safe))
+      @current_page = WebInspector.new(@current_url)
       failed = false                                               
     rescue OpenURI::HTTPError => e                                   
       error_message = e.message                                      
