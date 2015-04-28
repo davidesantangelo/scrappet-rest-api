@@ -1,6 +1,3 @@
-require 'open-uri'
-require 'open_uri_redirections'
-
 class Api::ScrapersController < Api::BaseController
   skip_before_filter :verify_authenticity_token
 

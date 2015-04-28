@@ -47,13 +47,8 @@ protected
     failed = true  
     response_message = ""
     @current_page = nil
-
     @current_url = url
-    u = URI.parse(url)
-    if(!u.scheme)
-      @current_url = "http://#{url}"
-    end
-
+    
     begin                                                            
       @current_page = WebInspector.new(@current_url)
       failed = false                                               
