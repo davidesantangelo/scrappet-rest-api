@@ -24,7 +24,7 @@ gem 'open_uri_redirections'
 gem 'bootstrap-sass'
 
 #webinspector
-gem 'webinspector', '~> 0.3.0'
+gem 'webinspector', '~> 0.4.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
